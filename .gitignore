@@ -98,3 +98,6 @@ Assets/AddressableAssetsData/
 #ProjectSettings
 /ProjectSettings/boot.config
 /ProjectSettings/MemorySettings.asset
+
+
+.idea/

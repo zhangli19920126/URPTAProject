@@ -39,14 +39,16 @@ Shader "URP/NPR/unlit"
             Varyings vert (Attributes v)
             {
                 Varyings o;
-                o.positionCS = TransformWorldToHClip(v.vertex.xyz);
+                o.positionCS = TransformObjectToHClip(v.vertex.xyz);
                 o.uv = TRANSFORM_TEX(v.uv, _BaseMap);;
                 return o;
             }
 
             half4 frag (Varyings i) : SV_Target
             {
-                return SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, i.uv);
+                float4 finalColor = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, i.uv);
+                clip(0.1 - finalColor.r);
+                return finalColor;
             }
             ENDHLSL
         }

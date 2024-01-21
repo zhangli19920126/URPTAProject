@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3bc8341d4952ab418a9409dc7717100, type: 3}
+  m_Name: animations
+  m_EditorClassIdentifier: 
+  animationPairs:
+  - key: a_head1_diantou
+    animationClip: {fileID: 7400000, guid: 533145f22c1be824aab42af433f01d58, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/a_head1_diantou.anim
+  - key: a_head2_yaotou
+    animationClip: {fileID: 7400000, guid: 2d061224d2112c942818461ffe130805, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/a_head2_yaotou.anim
+  - key: t_idle11_tandanshou
+    animationClip: {fileID: 7400000, guid: a08e7fb23148357459955aeb9ef341b0, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle11_tandanshou.anim
+  - key: t_idle11_tandanshou_end
+    animationClip: {fileID: 7400000, guid: 9a26a471c3b8e5a40b3116db7f55ca95, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle11_tandanshou_end.anim
+  - key: t_idle11_tandanshou_start
+    animationClip: {fileID: 7400000, guid: ed74e025000c2a545aa5932398e6d6b3, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle11_tandanshou_start.anim
+  - key: t_idle12_tanshuangshou
+    animationClip: {fileID: 7400000, guid: c15b1f637871b054cb69d9d7ff0067dc, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle12_tanshuangshou.anim
+  - key: t_idle12_tanshuangshou_end
+    animationClip: {fileID: 7400000, guid: 926ca8d0eda155a46bec096956c03bae, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle12_tanshuangshou_end.anim
+  - key: t_idle12_tanshuangshou_start
+    animationClip: {fileID: 7400000, guid: 007372ade0a0c7049b401db94a95ed0e, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle12_tanshuangshou_start.anim
+  - key: t_idle13_biaoda
+    animationClip: {fileID: 7400000, guid: c2b74d4ab3922d94093514991caa5086, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle13_biaoda.anim
+  - key: t_idle13_biaoda_end
+    animationClip: {fileID: 7400000, guid: 277d701ad62e11d45964555b2369ce7c, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle13_biaoda_end.anim
+  - key: t_idle13_biaoda_start
+    animationClip: {fileID: 7400000, guid: c6c3fba070f38394ca122448c7470d3e, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle13_biaoda_start.anim
+  - key: t_idle17_shoubeihou
+    animationClip: {fileID: 7400000, guid: 96ea7e2af65fb4c4da8d1cd9fd207e47, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle17_shoubeihou.anim
+  - key: t_idle17_shoubeihou_end
+    animationClip: {fileID: 7400000, guid: c41f00a32ae08174aa9805aebaa389e0, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle17_shoubeihou_end.anim
+  - key: t_idle17_shoubeihou_start
+    animationClip: {fileID: 7400000, guid: b0788028d115f714b8679ab583fd5f40, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle17_shoubeihou_start.anim
+  - key: t_idle1_moren
+    animationClip: {fileID: 7400000, guid: 3bc8e56015be93641980f43a3f8673ff, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle1_moren.anim
+  - key: t_idle2_xingzou
+    animationClip: {fileID: 7400000, guid: 26b2f7708f39c93499db838ad829421f, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle2_xingzou.anim
+  - key: t_idle30_shuaifa
+    animationClip: {fileID: 7400000, guid: 0351a7bd7b427a949aef40dd12d29819, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle30_shuaifa.anim
+  - key: t_idle31_jugong
+    animationClip: {fileID: 7400000, guid: 445d907adea2a754e8acf49a1a575cf2, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle31_jugong.anim
+  - key: t_idle32_yanzui
+    animationClip: {fileID: 7400000, guid: e809b8a73612bbb45a85cc221bc704d2, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle32_yanzui.anim
+  - key: t_idle32_yanzui_end
+    animationClip: {fileID: 7400000, guid: 8207be11aa53b6341866090b19cad146, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle32_yanzui_end.anim
+  - key: t_idle32_yanzui_start
+    animationClip: {fileID: 7400000, guid: b53d059c6281c604b9a69191d842b035, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle32_yanzui_start.anim
+  - key: t_idle3_yidongyou
+    animationClip: {fileID: 7400000, guid: 2c6c7bd11d109044cb9e40f72b42971a, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle3_yidongyou.anim
+  - key: t_idle4_yidongzuo
+    animationClip: {fileID: 7400000, guid: 49b253f70586cde48a0d56a46fc1f35f, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle4_yidongzuo.anim
+  - key: t_idle5_yidongqian
+    animationClip: {fileID: 7400000, guid: ad31cac614ecf134b81422fa4517e2f6, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle5_yidongqian.anim
+  - key: t_idle6_yidonghou
+    animationClip: {fileID: 7400000, guid: 566e63b8bc52a274f991cd60b9a9ac55, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle6_yidonghou.anim
+  - key: t_idle7_danchayao
+    animationClip: {fileID: 7400000, guid: f0f708a9ac8023443b42cb239ac8f3ee, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle7_danchayao.anim
+  - key: t_idle7_danchayao_end
+    animationClip: {fileID: 7400000, guid: ac83b8473f4120049bf5d8a3fe4c8c5a, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle7_danchayao_end.anim
+  - key: t_idle7_danchayao_start
+    animationClip: {fileID: 7400000, guid: d2f57e9610070744e944c0ba2c710946, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle7_danchayao_start.anim
+  - key: t_idle8_shuangchayao
+    animationClip: {fileID: 7400000, guid: f3876204fc908d04aa18810479cbcc24, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle8_shuangchayao.anim
+  - key: t_idle8_shuangchayao_end
+    animationClip: {fileID: 7400000, guid: 2879bc2bce07b244f944a73fae315d29, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle8_shuangchayao_end.anim
+  - key: t_idle8_shuangchayao_start
+    animationClip: {fileID: 7400000, guid: c25a5a234e5c2f54cbc9fcd37c3ce328, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle8_shuangchayao_start.anim
+  - key: t_idle9_shenshou
+    animationClip: {fileID: 7400000, guid: 937efbc7c92c34d4abc0800f2212fd9c, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle9_shenshou.anim
+  - key: t_idle9_shenshou_end
+    animationClip: {fileID: 7400000, guid: b96a6f3300a3ddb42917c19b693efb92, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle9_shenshou_end.anim
+  - key: t_idle9_shenshou_start
+    animationClip: {fileID: 7400000, guid: a869939968fde4c47a66cbf393b6463d, type: 2}
+    frameIndexs: 
+    path: character3d/100013_anniwei/general/animations_show/t_idle9_shenshou_start.anim
+  isStory: 0

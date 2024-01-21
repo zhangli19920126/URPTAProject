@@ -1,0 +1,103 @@
+# =============== #
+# Unity generated #
+# =============== #
+Temp/
+Library/*
+Logs/
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+obj/
+*.svd
+*.userprefs
+/*.csproj
+/*.log
+*.pidb
+*.suo
+/*.sln
+*.user
+*.unityproj
+*.booproj
+*.vsconfig
+.vs/*
+scene_temp/
+scene_temp.meta
+ArtTemp/
+ArtTemp.meta
+ProfilerTools/
+ProfilerTools.meta
+LocalTemp/
+LocalTemp.meta
+LuaEncoder/
+LuaEncoder.meta
+
+# =================== #
+# No AoUnityFramework #
+# =================== #
+# Assets/Scripts/
+# Assets/Scripts.meta
+#Assets/Resources/
+#Assets/Resources.meta
+
+AssetBundles/
+Assets/AssetBundles
+Assets/AssetBundles.meta
+
+AndroidPackageProj/
+
+Assets/AssetBundles
+Assets/AssetBundles.meta
+
+Assets/GameAssets/luabytes/
+Assets/GameAssets/luabytes.meta
+
+Assets/Resources/IgnorePreferences
+Assets/Resources/IgnorePreferences.meta
+
+.vscode/
+/*.sublime-workspace
+/*.sublime-project
+/.vs
+
+# FindReference2
+Assets/Editor/FR2_Cache.asset
+Assets/Editor/FR2_Cache.asset.meta
+
+# StreamingAssets
+Assets/StreamingAssets/build_info
+Assets/StreamingAssets/build_info.meta
+
+#Packages
+Packages/packages-lock.json
+
+# addressaqbleDatabase
+Assets/AddressableAssetsData/
+!Assets/AddressableAssetsData/DataBuilders/
+!Assets/AddressableAssetsData/AssetGroupTemplates/
+!Assets/AddressableAssetsData/AssetGroups/Schemas/"Built In Data_PlayerDataGroupSchema.asset"
+!Assets/AddressableAssetsData/AssetGroups/Schemas/"Built In Data_PlayerDataGroupSchema.asset.meta"
+!Assets/AddressableAssetsData/AssetGroups/Schemas/"Default Local Group_BundledAssetGroupSchema.asset"
+!Assets/AddressableAssetsData/AssetGroups/Schemas/"Default Local Group_BundledAssetGroupSchema.asset.meta"
+!Assets/AddressableAssetsData/AssetGroups/Schemas/"Default Local Group_ContentUpdateGroupSchema.asset"
+!Assets/AddressableAssetsData/AssetGroups/Schemas/"Default Local Group_ContentUpdateGroupSchema.asset.meta"
+!Assets/AddressableAssetsData/AssetGroups/Schemas/"GroupManager_AddressGroupManager.asset"
+!Assets/AddressableAssetsData/AssetGroups/Schemas/"GroupManager_AddressGroupManager.asset.meta"
+
+!Assets/AddressableAssetsData/AssetGroups/"Built In Data.asset"
+!Assets/AddressableAssetsData/AssetGroups/"Built In Data.asset.meta"
+!Assets/AddressableAssetsData/AssetGroups/"Default Local Group.asset"
+!Assets/AddressableAssetsData/AssetGroups/"Default Local Group.asset.meta"
+!Assets/AddressableAssetsData/AssetGroups/"GroupManager.asset"
+!Assets/AddressableAssetsData/AssetGroups/"GroupManager.asset.meta"
+
+#UserSettings
+/UserSettings/Layouts/default-2021.dwlt
+
+#ProjectSettings
+/ProjectSettings/boot.config
+/ProjectSettings/MemorySettings.asset
+
+
+.idea/

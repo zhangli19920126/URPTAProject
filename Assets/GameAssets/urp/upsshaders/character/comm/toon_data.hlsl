@@ -1,5 +1,7 @@
 #ifndef NPR_DATA_INCLUDED
 #define NPR_DATA_INCLUDED
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
 struct ToonAttributes
 {
@@ -33,18 +35,32 @@ struct ToonVaryings
 
 struct ToonLightData
 {
+    Light light;
+
+    float4 baseColor;
+    float4 lightMap;
+    float4 mixMap;
+    
+    #ifdef _RAMPMAP_NO
+    float4 rampMap;
+    #endif
+    
+    
     float3 T;
     float3 B;
     float3 N;
     float3 L;
     float3 V;
-    float4 uv;
+    float3 H;
+    float2 uv1;
+    float2 uv2;
 
     float NV;
     float NL;
     float NH;
     float TL;
     float TH;
+    float HV;
     float NL01;
 };
 

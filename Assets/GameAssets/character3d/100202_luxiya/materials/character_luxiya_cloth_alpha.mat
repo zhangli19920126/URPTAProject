@@ -55,7 +55,7 @@ Material:
     m_Floats:
     - _BaseSettings: 1
     - _BrightIntensity: 1
-    - _DarkIntensity: 0.5
+    - _DarkIntensity: 1
     - _DarkIntensity2: 0.8
     - _DebugTexMode: 1
     - _DebugTexture: 1

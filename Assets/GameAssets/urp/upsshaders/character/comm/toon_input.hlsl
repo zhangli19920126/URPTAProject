@@ -3,12 +3,22 @@
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 #include "toon_data.hlsl"
 #include "toon_lit_cbuffer.hlsl"
+#include "../../common/TABrdf.hlsl"
 
 TEXTURE2D(_BaseMap);   SAMPLER(sampler_BaseMap);
-TEXTURE2D(_SSSMap);   SAMPLER(sampler_SSSMap);
-TEXTURE2D(_ILMMap);   SAMPLER(sampler_ILMMap);
+TEXTURE2D(_LightMap);   SAMPLER(sampler_LightMap);
+TEXTURE2D(_PbrMixMap);   SAMPLER(sampler_PbrMixMap);
+
+#ifdef _RAMPMAP_NO
+TEXTURE2D(_RampMap);   SAMPLER(sampler_RampMap);
+#endif
+
+//#ifdef _NORMALMAP_NO
+TEXTURE2D(_NormalMap);   SAMPLER(sampler_NormalMap);
+//#endif
 
 #ifdef _DEBUG_TEX_ON
 TEXTURE2D(_DebugTex);   SAMPLER(sampler_DebugTex);
@@ -36,75 +46,168 @@ ToonVaryings ToonForwardPassVertex(ToonAttributes input)
     output.screenPos = ComputeScreenPos(output.positionCS);
     output.color = input.color;
     output.positionOS = input.positionOS;
-
     
     return output;
 }
 
-half4 ToonGGXForwardPassFragment(ToonVaryings input)
+ToonLightData InitToonLightData(ToonVaryings input)
 {
-    float4 base = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv.xy);
-    float4 sss = SAMPLE_TEXTURE2D(_SSSMap, sampler_SSSMap, input.uv.xy);
-    //r材质区分 g常暗区域，b高光大小，a轮廓线
-    float4 ilm = SAMPLE_TEXTURE2D(_ILMMap, sampler_ILMMap, input.uv.xy);
-    half3 finalColor = base.xyz;
-    //light
-    Light mainLight = GetMainLight(input.shadowCoord, input.positionWS, float4(1,1,1,1));
-    float fogFactor = input.viewDirWS.w;
-    // float zCS = input.positionCS.z * input.positionCS.w;//将经过透视除法的顶点反推回裁剪空间
-    // real fogFactor = ComputeFogFactor(zCS);
+    ToonLightData data = (ToonLightData)0;
     
-    //Variable
-    float3 T = normalize(input.tangentWS);
-    float3 N = normalize(input.normalWS);
-    float3 B = normalize(cross(N,T));
-    float3 L = normalize(mainLight.direction);
-    //float3 V = normalize(input.viewDirWS);
-    float3 V = normalize(GetWorldSpaceViewDir(input.positionWS));
-    float3 H = normalize(V+L);//半角向量
+    Light light = GetMainLight(input.shadowCoord, input.positionWS, float4(0,0,0,0));
     float2 uv = input.uv.xy;
-    float2 uv2 = input.uv2.xy;
+    
+    data.baseColor = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uv);
+    data.lightMap = SAMPLE_TEXTURE2D(_LightMap, sampler_LightMap, uv);
+    data.mixMap = SAMPLE_TEXTURE2D(_PbrMixMap, sampler_PbrMixMap, uv);
+    
+    data.T    = normalize(input.tangentWS);
+    data.N    = normalize(input.normalWS);
+    data.B    = normalize(input.bitangentWS);
+    data.L    = normalize(light.direction);
+    //float3 V = normalize(input.viewDirWS);
+    data.V = normalize(GetWorldSpaceViewDir(input.positionWS));
+    data.H = normalize(data.V+data.L);//半角向量
 
-    //useful dot
-    float HV = dot(H,V);
-    float NV = dot(N,V);
-    float NL = dot(N,L);
-    float NH = dot(N,H);
-    float TL = dot(T,L);
-    float TH = dot(T,H);
-    float NL01 = NL * 0.5 + 0.5;
+    #ifdef _NORMALMAP_NO
+    float3 normalMap = UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalMap, sampler_NormalMap, uv), _NormalScale);
+    //TBN矩阵:将世界坐标转到Tangent坐标，（是正交矩阵，逆等于其转置）
+    float3x3 TBN = float3x3(data.T, data.B, data.N);
+    //将NormalMap 从Tangent坐标转到世界坐标
+    data.N = normalize(mul(normalMap, TBN));  // N = normalize(mul(inverse(TBN), NormalMap));
+    #endif
+            
+    data.HV = saturate(dot(data.H, data.V));
+    data.NV = saturate(dot(data.N, data.V));
+    data.NL = saturate(dot(data.N, data.L));
+    data.NH = saturate(dot(data.N, data.H));
+    data.TL = saturate(dot(data.T, data.L));
+    data.TH = saturate(dot(data.T, data.H));
+    data.NL01 = data.NL * 0.5 + 0.5;
 
-    //漫反射
-    base *= ilm.a;
-    float alwaysDark = ilm.g > 0.01;
-    float threshold = step(_SSS, NL01 * alwaysDark);
-    half3 diffuse = lerp(base * _SSSScale, base, threshold).xyz;
-    diffuse *= mainLight.color;
+    #ifdef _RAMPMAP_NO
+    float shadowAO = step(0.1, data.lightMap.g);
+    data.rampMap = SAMPLE_TEXTURE2D(_RampMap, sampler_RampMap, float2((data.NL01 + _RampOffset) * shadowAO, 0.5));
+    #endif
+    
+    data.uv1 = uv;
+    data.uv2 = input.uv2;
+    data.light = light;
 
-    half3 rim = 0;
-#ifdef _RIM_ON
+    return data;
+}
+
+half4 ToonForwardPassFragment(ToonLightData input)
+{
+    half3 finalColor = input.baseColor.xyz;
+    half3 baseColor = input.baseColor.xyz;
+    half4 mixMap = input.mixMap;
+
+    half3 dark = baseColor * _DarkIntensity;
+    half3 bright = baseColor * _BrightIntensity;
+    half3 diffuse = 0;
+
+    float GGXMask = mixMap.a;
+    float matMask = 1; //材质区分
+    if(GGXMask < 0.2 || GGXMask > 0.44)
+        matMask = 0;
+    if(GGXMask > 0.76)
+        matMask = 1;
+    
+    float threshold = 0;
+    float rampAdd = 0;
+    
+    #ifdef _AO_RAMP_NO
+    rampAdd = input.lightMap.r * 2 - 1;
+    rampAdd *= _RampAddScale;
+    #endif
+    
+    
+    #ifdef _RAMPMAP_NO
+        diffuse = lerp(dark, bright, input.rampMap.xyz);
+        threshold = input.rampMap.x;
+    #else
+        float shadowAO = input.lightMap.g;
+        shadowAO = step(0.01, shadowAO);
+        threshold = step(_RampOffset + rampAdd, input.NL) * shadowAO;
+        diffuse = lerp(dark, bright, threshold);
+        
+        #ifdef _USE_SECOND_DARK
+        float threshold2 =  step(((_RampOffset2 + rampAdd) * shadowAO), input.NL);
+        float3 second = lerp(baseColor * _DarkIntensity2, diffuse, threshold2);
+        diffuse = lerp(diffuse, second, matMask);
+        #endif
+    #endif
+
+    finalColor.xyz = diffuse;
+    
+    float3 specular = 0;
+    
+    #ifdef _SPECTYPE_GGX
+        float metallic = mixMap.r; //金属度
+        float roughness = 1 - mixMap.g; //粗糙度
+        float AO = mixMap.b;     
+        metallic *= _Metallic;
+        roughness *= _Roughness;
+        float3 F0 = lerp(0.04, input.baseColor, metallic);
+        specular =  Specular_GGX(input.N,input.L,input.H,input.V,roughness,F0) * AO *_SpecularIntensity * GGXMask *matMask;
+    #elif _SPECTYPE_BLINPHONG
+        #ifdef _PHONG_SHIFT_ON
+            StylizedSpecularParam param;
+            param.BaseColor = baseColor;
+            param.Normal = input.N;
+            param.Shininess = _Shininess;
+            param.Gloss = _Gloss;
+            param.Threshold = _Threshold;
+            param.dv = input.T;
+            param.du = input.B;
+            specular =  StylizedSpecularLight_BlinPhong( param, input.H)*_SpecShiftIntensity* GGXMask*matMask;
+        #else
+            specular = pow(input.NH, _Shininess*128) *_Gloss;
+        #endif
+    #endif
+
+    #ifdef _AO_SPEC_NO
+    specular *= input.lightMap.b;
+    #endif
+
+    finalColor += specular;
+
     //自发光
-    half rimStep = step(NV, _RimWidth);
-#ifdef _RIMONLYDARK
-    rimStep = lerp(rimStep, 0, threshold);
-#endif
-    rim = rimStep * _RimIntensity * base.xyz;
-#endif
-    //法线转到视角空间下的做法
-    // float3  N_VS = mul((float3x3)unity_MatrixV, N);
-    // rim = step(1-_RimWidth, abs(N_VS.x)) * _RimIntensity * base;
+    #ifdef _RIM_ON
+        half rimStep = step(input.NV, _RimWidth);
+        #ifdef _RIMONLYDARK
+        rimStep = lerp(rimStep, 0, threshold);
+        #endif
+        float3 rim = rimStep * _RimIntensity * baseColor;
+        finalColor += rim;
+    #endif
 
-    //高光
-    half3 specular = pow(saturate(NH), _SpecularPow) * _SpecularIntensity  * base.xyz;
-    // //视角光
-    // float4 viewColor = step(1-_ViewWidth,NV)*_ViewIntensity*base;
     
-    half layer = ilm.r * 255;//经过测试，0-60（即最暗的部分）对应角色普通材质，60到190对应角色皮革材质，190以上是金属材质。
-    specular *= (layer > 190);
-    
-    finalColor = diffuse + specular + rim;
-    finalColor = MixFog(finalColor.rgb, fogFactor);
+    #ifdef _SPECULAR_STEP
+        float3 stepLight = step(1 - _StepLightWidth, input.NH) * _StepLightIntensity * baseColor;
+        finalColor += stepLight;
+    #endif
+
     return half4(finalColor, 1);
+}
+
+half4 TexDebug(half4 srcColor, float2 uv)
+{
+    #if defined(_DEBUG_TEX_ON)
+        srcColor = SAMPLE_TEXTURE2D(_DebugTex, sampler_DebugTex, uv);
+        #if defined(_DEBUGTEXMODE_R)
+            finalColor = finalColor.rrrr;
+        #elif defined(_DEBUGTEXMODE_G)
+            finalColor = finalColor.gggg;
+        #elif defined(_DEBUGTEXMODE_B)
+            finalColor = finalColor.bbbb;
+        #elif defined(_DEBUGTEXMODE_A)
+            finalColor = finalColor.aaaa;
+        #endif
+    #endif
+    
+    return srcColor;
 }
 
 OutlineVaryings OutlineTPassVertex(OutlineAttributes input)
@@ -120,6 +223,5 @@ OutlineVaryings OutlineNPassVertex(OutlineAttributes input)
     output.positionCS = TransformObjectToHClip(input.positionOS.xyz + input.normalOS * _OutLineWidth * 0.01);
     return output;
 }
-
-
+ 
 #endif

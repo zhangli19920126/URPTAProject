@@ -8,11 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: character_luxiya_body
-  m_Shader: {fileID: 4800000, guid: bf6ccac9ef50f0341a6a2f1b8e5cf067, type: 3}
+  m_Shader: {fileID: 4800000, guid: 68ad5a2cb791ad045ae046deb633c5ec, type: 3}
   m_ValidKeywords:
   - _DEBUGTEXMODE_G
+  - _RAMPMAP_NO
   - _RIMONLYDARK
-  m_InvalidKeywords: []
+  - _SPECTYPE_NONE
+  m_InvalidKeywords:
+  - _SPECSHIFT_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -34,26 +37,64 @@ Material:
         m_Texture: {fileID: 2800000, guid: ffac70278f242b548949cb2ef4226b95, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 847504ff3e17ed040bdb992e8dd1271c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PbrMixMap:
+        m_Texture: {fileID: 2800000, guid: e3e6ce698b3620c41b6b9a5051c58604, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _RampMap:
         m_Texture: {fileID: 2800000, guid: c66f3e751aac2f94e897be60a41741a7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AOInfoSettings: 1
+    - _AOSetting: 1
     - _BaseSettings: 1
     - _BrightIntensity: 0.8
     - _DarkIntensity: 0.5
+    - _DarkIntensity2: 0.5
     - _DebugTexMode: 1
     - _DebugTexture: 1
     - _EnableDebugTex: 0
+    - _EnableNormalMap: 0
+    - _EnableRamPMap: 1
+    - _Gloss: 1
+    - _Metallic: 0.1
+    - _NormalMapScale: 1
+    - _NormalMapSettings: 1
+    - _NormalScale: 1
     - _OutLineWidth: 0.479
     - _OutlineSettings: 1
+    - _PBRSettings: 1
+    - _PbrInfoSettings: 1
+    - _Phong_Shift_On: 0
+    - _RampAddScale: 1
     - _RampOffset: 0
+    - _RampOffset2: 0
     - _RimIntensity: 1
     - _RimOn: 0
     - _RimOnlyDark: 1
     - _RimSettings: 1
     - _RimWidth: 0.3
+    - _Roughness: 0.5
+    - _Shininess: 1
+    - _SpecShift: 0
+    - _SpecShiftIntensity: 1
+    - _SpecType: 0
+    - _SpecularIntensity: 1
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilRef: 1
+    - _StencilSettings: 1
+    - _StepLightIntensity: 1
+    - _StepLightOn: 0
+    - _StepLightWidth: 0.3
+    - _Threshold: 0.2
+    - _UseSecondDark: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutLineColor: {r: 0, g: 0, b: 0, a: 1}
